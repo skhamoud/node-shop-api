@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 // ==== Our modules ======
+const headersHandler = require('./api/middlewares/headersHandler');
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
 
@@ -11,6 +12,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use(headersHandler);
 // ===== Routes =========
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
