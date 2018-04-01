@@ -2,6 +2,7 @@ const app = require('express')();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const config = require('./config');
 
 // ==== Our modules ======
 const headersHandler = require('./api/middlewares/headersHandler');
@@ -9,7 +10,7 @@ const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
 
 // ======== DB connection =============
-mongoose.connect('mongodb://localhost/rest-shop', {});
+mongoose.connect(config.DB_HOSTNAME, {});
 const db = mongoose.connection;
 db.once('open', () => {
   console.log('connected to db...');
@@ -28,8 +29,8 @@ app.use(bodyParser.json());
 
 app.use(headersHandler);
 // ===== Routes =========
-app.use('/products', productRoutes);
-app.use('/orders', orderRoutes);
+app.use(`${config.API_ENDPOINT}/products`, productRoutes);
+app.use(`${config.API_ENDPOINT}/orders`, orderRoutes);
 
 app.use((req, res, next) => {
   const error = new Error('Not Found');
