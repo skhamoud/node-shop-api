@@ -1,11 +1,25 @@
 const app = require('express')();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 // ==== Our modules ======
 const headersHandler = require('./api/middlewares/headersHandler');
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+
+// ======== DB connection =============
+mongoose.connect('mongodb://localhost/rest-shop', {});
+const db = mongoose.connection;
+db.once('open', () => {
+  console.log('connected to db...');
+});
+db.on('error', () => {
+  throw new Error('DB connection failed');
+});
+db.on('disconnected', () => {
+  throw new Error('DB disconnected... ');
+});
 
 // ==== Middlewares =========
 app.use(morgan('dev'));
