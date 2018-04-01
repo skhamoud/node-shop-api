@@ -49,7 +49,9 @@ router.post('/', async (req, res) => {
 router.get('/:productId', async (req, res) => {
   const { productId } = req.params;
   try {
-    const product = await Product.findById(productId).select({ __v: 0 });
+    const product = await Product.findById(productId)
+      .select({ __v: 0 })
+      .exec();
     if (product) res.status(200).json({ product });
     else res.status(404).json({ error: { message: 'No Entry for that Id' } });
   } catch (error) {
@@ -64,7 +66,7 @@ router.patch('/:productId', async (req, res) => {
     updateOps[prop] = data[prop];
   });
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(productId, { $set: updateOps });
+    const updatedProduct = await Product.findByIdAndUpdate(productId, { $set: updateOps }).exec();
     if (updatedProduct) {
       res.status(200).json({
         updatedProduct,
@@ -79,7 +81,7 @@ router.patch('/:productId', async (req, res) => {
 router.delete('/:productId', async (req, res) => {
   const { productId } = req.params;
   try {
-    const removedProduct = await Product.findByIdAndRemove(productId);
+    const removedProduct = await Product.findByIdAndRemove(productId).exec();
     if (removedProduct) res.sendStatus(200);
     else res.status(404).json({ error: { message: 'No Entry for that Id' } });
   } catch (error) {
