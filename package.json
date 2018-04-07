@@ -10,9 +10,10 @@
     "morgan": "^1.9.0"
   },
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "cross-env NODE_ENV=development nodemon index.js"
   },
   "devDependencies": {
+    "cross-env": "^5.1.4",
     "nodemon": "^1.17.3"
   }
 }
