@@ -1,4 +1,5 @@
-const app = require('express')();
+const path = require('path');
+const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -23,6 +24,7 @@ db.on('disconnected', () => {
 });
 
 // ==== Middlewares =========
+const app = express();
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -32,6 +34,7 @@ app.use(headersHandler);
 app.use(`${config.API_ENDPOINT}/products`, productRoutes);
 app.use(`${config.API_ENDPOINT}/orders`, orderRoutes);
 
+app.use('/product_images', express.static(path.join(__dirname, 'product_images')));
 app.use((req, res, next) => {
   const error = new Error('Not Found');
   error.status = 404;
