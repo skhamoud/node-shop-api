@@ -68,7 +68,7 @@ router.get('/:orderId', async (req, res) => {
 router.delete('/:orderId', async (req, res) => {
   try {
     const order = await Order.findByIdAndRemove(req.params.orderId);
-    if (order) res.status(200).send({ message: 'Succesfully deleted the Order' });
+    if (order) res.status(204).send({ message: 'Succesfully deleted the Order' });
     else
       res.status(404).send({
         message: 'Order Not Found!'

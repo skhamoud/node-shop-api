@@ -93,7 +93,7 @@ router.delete('/:productId', async (req, res) => {
   const { productId } = req.params;
   try {
     const removedProduct = await Product.findByIdAndRemove(productId).exec();
-    if (removedProduct) res.sendStatus(200);
+    if (removedProduct) res.sendStatus(204);
     else res.status(404).send({ error: { message: 'No Entry for that Id' } });
   } catch (error) {
     res.status(500).send({ error });
